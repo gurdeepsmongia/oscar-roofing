@@ -1,0 +1,32 @@
+---
+// Simpler banner hero for interior pages (Services/About/Projects/Contact/legal).
+// The home page uses its own bespoke Hero, not this one.
+interface Props {
+  eyebrow?: string;
+  title: string;
+  description?: string;
+}
+
+const { eyebrow, title, description } = Astro.props;
+---
+
+<section class="relative bg-navy shingle-texture overflow-hidden">
+  <div class="mx-auto max-w-[1280px] px-6 lg:px-10 py-20 md:py-28 text-center">
+    {eyebrow && (
+      <p class="text-sm font-semibold tracking-wide uppercase text-amber" data-reveal>
+        {eyebrow}
+      </p>
+    )}
+    <h1
+      class="mt-3 font-display text-4xl md:text-5xl font-bold text-white max-w-3xl mx-auto"
+      data-reveal
+    >
+      {title}
+    </h1>
+    {description && (
+      <p class="mt-5 text-lg text-white/75 max-w-2xl mx-auto" data-reveal>
+        {description}
+      </p>
+    )}
+  </div>
+</section>

@@ -1,0 +1,29 @@
+---
+import type { Service } from "../data/services";
+import Icon from "./Icon.astro";
+
+interface Props {
+  service: Service;
+}
+
+const { service } = Astro.props;
+---
+
+<article
+  id={service.slug}
+  class="group rounded-2xl bg-white border border-black/5 shadow-elevated p-7 transition-transform duration-300 ease-out hover:-translate-y-1"
+  data-reveal
+>
+  <div class="inline-flex items-center justify-center size-12 rounded-xl bg-blue/10 text-blue transition-colors duration-300 group-hover:bg-blue-bright group-hover:text-white">
+    <Icon name={service.icon} class="size-6" />
+  </div>
+  <h3 class="mt-5 font-display text-lg font-bold text-navy">{service.title}</h3>
+  <p class="mt-2.5 text-sm leading-relaxed text-ink-soft">{service.short}</p>
+  <a
+    href={`/services#${service.slug}`}
+    class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-blue-bright"
+  >
+    Learn More
+    <Icon name="chevron-right" class="size-3.5 transition-transform duration-200 group-hover:translate-x-0.5" />
+  </a>
+</article>

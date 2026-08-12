@@ -1,0 +1,125 @@
+@import "tailwindcss";
+@import "@fontsource-variable/manrope";
+@import "@fontsource-variable/inter";
+
+@theme {
+  --font-display: "Manrope Variable", "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Inter Variable", "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  /* Oscar Roofing brand palette — exact values from client spec, do not substitute Tailwind defaults */
+  --color-navy: #0b1f3a;
+  --color-navy-deep: #071527;
+  --color-navy-soft: #142b4d;
+  --color-blue: #1557a6;
+  /* Brief specifies #2F80ED as "approximate" — that value is only 3.87:1 against white
+     (fails WCAG AA's 4.5:1 for text/buttons). Darkened to #1A5FCC (5.91:1) so every
+     primary CTA and link keeps AA contrast; still reads as the brighter accent above --color-blue. */
+  --color-blue-bright: #1a5fcc;
+  --color-gray-light: #f5f7fa;
+  --color-ink: #172033;
+  --color-ink-soft: #5b6575;
+  --color-amber: #f4b942;
+
+  --shadow-elevated: 0 1px 2px 0 rgba(11, 31, 58, 0.06), 0 8px 24px -8px rgba(11, 31, 58, 0.18);
+  --shadow-floating: 0 4px 10px -2px rgba(11, 31, 58, 0.14), 0 20px 40px -16px rgba(11, 31, 58, 0.24);
+
+  --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-body);
+    color: var(--color-ink);
+    line-height: 1.7;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-blue-bright);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* Roofline signature: an asymmetric ~10° pitched edge, used only at the hero image
+     and the final-CTA band — never decorative filler on ordinary sections. */
+  .roofline-bottom {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - 3.2vw));
+  }
+
+  .roofline-top {
+    clip-path: polygon(0 3.2vw, 100% 0, 100% 100%, 0 100%);
+  }
+
+  @media (min-width: 1024px) {
+    .roofline-bottom {
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - 64px));
+    }
+
+    .roofline-top {
+      clip-path: polygon(0 64px, 100% 0, 100% 100%, 0 100%);
+    }
+  }
+
+  /* Reveal-on-scroll only applies once JS confirms it can run the IntersectionObserver
+     (html.js, set synchronously in BaseLayout's <head>). Without JS, content is visible
+     immediately — scroll animation is a progressive enhancement, never a requirement. */
+  html.js [data-reveal] {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.7s var(--ease-spring), transform 0.7s var(--ease-spring);
+  }
+
+  html.js [data-reveal].is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  html.js [data-reveal="scale"] {
+    transform: scale(0.97);
+  }
+
+  html.js [data-reveal="scale"].is-visible {
+    transform: scale(1);
+  }
+
+  /* Faint shingle-coursing texture for dark navy sections */
+  .shingle-texture {
+    background-image: repeating-linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.05) 0px,
+      rgba(255, 255, 255, 0.05) 1px,
+      transparent 1px,
+      transparent 34px
+    );
+    background-position: 0 0;
+  }
+}

@@ -1,0 +1,30 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Icon from "../components/Icon.astro";
+---
+
+<BaseLayout
+  title="Page Not Found | Oscar Roofing"
+  description="The page you're looking for couldn't be found."
+  path="/404"
+>
+  <section class="bg-white py-28 md:py-36">
+    <div class="mx-auto max-w-[600px] px-6 text-center">
+      <div class="inline-flex items-center justify-center size-16 rounded-full bg-blue/10 text-blue-bright mx-auto">
+        <Icon name="map-pin" class="size-8" />
+      </div>
+      <h1 class="mt-6 font-display text-3xl md:text-4xl font-bold text-navy">Page Not Found</h1>
+      <p class="mt-4 text-ink-soft">
+        The page you're looking for doesn't exist or may have moved. Let's get you back on track.
+      </p>
+      <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+        <a href="/" class="inline-flex items-center gap-2 rounded-lg bg-blue-bright px-6 py-3 text-sm font-semibold text-white">
+          Back to Home
+        </a>
+        <a href="/contact" class="inline-flex items-center gap-2 rounded-lg border border-navy/15 px-6 py-3 text-sm font-semibold text-navy">
+          Get a Quote
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,61 @@
+---
+import { Image } from "astro:assets";
+import { hero } from "../data/media";
+import { site } from "../data/site";
+import Icon from "./Icon.astro";
+---
+
+<section class="relative bg-white overflow-hidden">
+  <div class="mx-auto max-w-[1280px] px-6 lg:px-10 pt-12 md:pt-16 pb-20 md:pb-28 grid lg:grid-cols-2 gap-12 items-center">
+    <div>
+      <p class="inline-flex items-center gap-2 rounded-full bg-blue/10 px-3.5 py-1.5 text-sm font-semibold text-blue">
+        <Icon name="map-pin" class="size-4" />
+        Serving the Greater Toronto Area
+      </p>
+      <h1 class="mt-5 font-display text-5xl md:text-6xl font-bold text-navy max-w-xl">
+        Reliable Roofing Solutions for Homes &amp; Businesses Across the GTA
+      </h1>
+      <p class="mt-6 text-lg leading-relaxed text-ink-soft max-w-lg">
+        From roof repairs and inspections to complete replacements and new installations, Oscar
+        Roofing provides dependable roofing solutions for residential and commercial properties
+        throughout the Greater Toronto Area.
+      </p>
+      <div class="mt-8 flex flex-wrap items-center gap-4">
+        <a
+          href="/contact"
+          class="inline-flex items-center gap-2 rounded-lg bg-blue-bright px-7 py-3.5 text-base font-semibold text-white shadow-[0_4px_14px_-4px_rgba(47,128,237,0.55)] transition-transform duration-200 ease-out hover:-translate-y-0.5 active:translate-y-0"
+        >
+          {site.primaryCta}
+          <Icon name="arrow-right" class="size-4" />
+        </a>
+        <a
+          href={site.phoneHref}
+          class="inline-flex items-center gap-2 rounded-lg border border-navy/15 px-7 py-3.5 text-base font-semibold text-navy transition-colors hover:bg-navy/5"
+        >
+          <Icon name="phone" class="size-4" />
+          {site.secondaryCta}
+        </a>
+      </div>
+      <p class="mt-4 text-sm text-ink-soft">
+        Prefer to talk now? Call <a href={site.phoneHref} class="font-semibold text-navy underline underline-offset-2">{site.phoneDisplay}</a>
+      </p>
+    </div>
+
+    <div class="relative">
+      <div class="roofline-bottom overflow-hidden rounded-2xl shadow-floating">
+        <Image
+          src={hero}
+          alt="Residential home in the Greater Toronto Area with an asphalt shingle roof — placeholder stock photo"
+          widths={[480, 768, 1024, 1400]}
+          sizes="(min-width: 1024px) 640px, 100vw"
+          class="w-full h-[340px] md:h-[460px] object-cover"
+          priority
+        />
+      </div>
+      <div class="absolute -bottom-6 -left-6 hidden sm:block rounded-xl bg-white shadow-elevated px-5 py-4 border border-black/5">
+        <p class="text-sm font-semibold text-navy">Residential &amp; Commercial</p>
+        <p class="text-xs text-ink-soft mt-0.5">Roofing solutions across the GTA</p>
+      </div>
+    </div>
+  </div>
+</section>

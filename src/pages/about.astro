@@ -1,0 +1,76 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import CTASection from "../components/CTASection.astro";
+import Icon from "../components/Icon.astro";
+import { Image } from "astro:assets";
+import { aboutTeamImage } from "../data/media";
+
+const approach = [
+  { icon: "check", label: "Quality-focused work" },
+  { icon: "quote", label: "Clear communication" },
+  { icon: "residential", label: "Professional service" },
+  { icon: "inspection", label: "Customer-focused recommendations" },
+  { icon: "emergency", label: "Safety-conscious practices" },
+];
+---
+
+<BaseLayout
+  title="About Oscar Roofing | GTA Roofing Contractor"
+  description="Oscar Roofing is a GTA roofing company focused on providing dependable roofing solutions for homeowners and businesses."
+  path="/about"
+>
+  <PageHero title="About Oscar Roofing" />
+
+  <section class="bg-white py-20 md:py-28">
+    <div class="mx-auto max-w-[1280px] px-6 lg:px-10 grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+      <div data-reveal>
+        <p class="text-sm font-semibold tracking-wide uppercase text-blue">Who We Are</p>
+        <h2 class="mt-3 font-display text-3xl md:text-4xl font-bold text-navy">
+          Dependable Roofing, Made Straightforward
+        </h2>
+        <p class="mt-5 text-ink-soft leading-relaxed">
+          Oscar Roofing is a GTA roofing company focused on providing dependable roofing solutions
+          for homeowners and businesses. From repairs and inspections to complete roof
+          replacements, our goal is to make the roofing process straightforward, professional and
+          easy to understand.
+        </p>
+      </div>
+      <div class="rounded-2xl overflow-hidden shadow-elevated" data-reveal="scale">
+        <Image
+          src={aboutTeamImage}
+          alt="Roofing professional at work — placeholder photo pending Oscar Roofing team photography"
+          widths={[480, 768, 1024]}
+          sizes="(min-width: 1024px) 560px, 100vw"
+          class="w-full h-80 md:h-[420px] object-cover"
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-navy shingle-texture py-20 md:py-28">
+    <div class="mx-auto max-w-[1280px] px-6 lg:px-10">
+      <div class="max-w-xl" data-reveal>
+        <p class="text-sm font-semibold tracking-wide uppercase text-amber">Our Approach</p>
+        <h2 class="mt-3 font-display text-3xl md:text-4xl font-bold text-white">
+          How We Work
+        </h2>
+      </div>
+      <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-5 gap-6">
+        {
+          approach.map((item) => (
+            <div class="rounded-2xl bg-white/5 border border-white/10 p-6" data-reveal>
+              <Icon name={item.icon} class="size-6 text-amber" />
+              <p class="mt-4 text-sm font-semibold text-white">{item.label}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <CTASection
+    title="Let's Discuss Your Roofing Project"
+    description="Tell us about your property and request a quote from Oscar Roofing."
+  />
+</BaseLayout>

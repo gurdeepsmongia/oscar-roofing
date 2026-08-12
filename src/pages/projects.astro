@@ -1,0 +1,36 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import CTASection from "../components/CTASection.astro";
+import GalleryGrid from "../components/GalleryGrid.astro";
+---
+
+<BaseLayout
+  title="Roofing Projects & Gallery | Oscar Roofing"
+  description="Browse examples of roofing work and exterior improvements from Oscar Roofing, serving the Greater Toronto Area."
+  path="/projects"
+>
+  <PageHero
+    eyebrow="Projects"
+    title="Our Roofing Projects"
+    description="Explore examples of roofing work and exterior improvements."
+  />
+
+  <section class="bg-white py-20 md:py-28">
+    <div class="mx-auto max-w-[1280px] px-6 lg:px-10">
+      <p class="text-sm text-ink-soft max-w-2xl" data-reveal>
+        Actual Oscar Roofing project photography is not yet available. The photos below are
+        high-quality royalty-free stock images used as placeholders and will be replaced with real
+        completed projects.
+      </p>
+      <div class="mt-8">
+        <GalleryGrid />
+      </div>
+    </div>
+  </section>
+
+  <CTASection
+    title="Have a Roofing Project of Your Own?"
+    description="Tell us about your roofing project and request a quote from Oscar Roofing."
+  />
+</BaseLayout>

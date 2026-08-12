@@ -1,0 +1,41 @@
+---
+import { site } from "../data/site";
+import Icon from "./Icon.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Need Roofing Work? Let's Talk.",
+  description = "Tell us about your roofing project and request a quote from Oscar Roofing.",
+} = Astro.props;
+---
+
+<section class="roofline-top relative bg-navy shingle-texture">
+  <div class="mx-auto max-w-[1280px] px-6 lg:px-10 py-20 md:py-24 text-center">
+    <h2 class="font-display text-3xl md:text-4xl font-bold text-white max-w-2xl mx-auto" data-reveal>
+      {title}
+    </h2>
+    <p class="mt-4 text-white/70 max-w-xl mx-auto" data-reveal>
+      {description}
+    </p>
+    <div class="mt-8 flex flex-wrap items-center justify-center gap-4" data-reveal>
+      <a
+        href="/contact"
+        class="inline-flex items-center gap-2 rounded-lg bg-blue-bright px-7 py-3.5 text-base font-semibold text-white transition-transform duration-200 ease-out hover:-translate-y-0.5 active:translate-y-0"
+      >
+        {site.primaryCta}
+        <Icon name="arrow-right" class="size-4" />
+      </a>
+      <a
+        href={site.phoneHref}
+        class="inline-flex items-center gap-2 rounded-lg border border-white/25 px-7 py-3.5 text-base font-semibold text-white transition-colors hover:bg-white/10"
+      >
+        <Icon name="phone" class="size-4" />
+        {site.phoneDisplay}
+      </a>
+    </div>
+  </div>
+</section>

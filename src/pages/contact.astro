@@ -1,0 +1,47 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import QuoteForm from "../components/QuoteForm.astro";
+import ContactInfoBlock from "../components/ContactInfoBlock.astro";
+import Icon from "../components/Icon.astro";
+import { site } from "../data/site";
+---
+
+<BaseLayout
+  title="Get a Roofing Quote | Oscar Roofing GTA"
+  description="Request a free roofing quote from Oscar Roofing. Tell us about your project and we'll get back to you — serving the Greater Toronto Area."
+  path="/contact"
+>
+  <PageHero
+    eyebrow="Get a Quote"
+    title="Get a Quote"
+    description="Tell us a little about your roofing needs and we'll get back to you."
+  />
+
+  <section class="bg-white py-20 md:py-28">
+    <div class="mx-auto max-w-[1280px] px-6 lg:px-10 grid lg:grid-cols-[1.4fr_1fr] gap-12">
+      <div class="rounded-2xl border border-black/5 shadow-elevated p-6 md:p-10" data-reveal>
+        <h2 class="font-display text-2xl font-bold text-navy">Request a Quote</h2>
+        <p class="mt-2 text-sm text-ink-soft">
+          Fields marked with <span class="text-blue-bright">*</span> are required.
+        </p>
+        <div class="mt-8">
+          <QuoteForm />
+        </div>
+      </div>
+
+      <div class="space-y-6">
+        <ContactInfoBlock />
+        <div class="rounded-2xl bg-gray-light p-6" data-reveal>
+          <p class="flex items-center gap-2 text-sm font-semibold text-navy">
+            <Icon name="phone" class="size-4 text-blue-bright" />
+            Prefer to talk now?
+          </p>
+          <a href={site.phoneHref} class="mt-2 inline-block text-lg font-bold text-navy hover:text-blue-bright transition-colors">
+            {site.phoneDisplay}
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

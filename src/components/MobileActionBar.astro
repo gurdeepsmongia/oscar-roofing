@@ -1,0 +1,25 @@
+---
+import { site } from "../data/site";
+import Icon from "./Icon.astro";
+---
+
+<div
+  class="lg:hidden fixed bottom-0 inset-x-0 z-40 grid grid-cols-2 bg-white border-t border-black/10 shadow-[0_-4px_16px_-4px_rgba(11,31,58,0.15)]"
+  style="padding-bottom: env(safe-area-inset-bottom);"
+>
+  <a
+    href={site.phoneHref}
+    class="flex items-center justify-center gap-2 py-3.5 text-sm font-semibold text-navy border-r border-black/10"
+  >
+    <Icon name="phone" class="size-4" />
+    {site.secondaryCta}
+  </a>
+  <a
+    href="/contact"
+    class="flex items-center justify-center gap-2 py-3.5 text-sm font-semibold text-white bg-blue-bright"
+  >
+    <Icon name="quote" class="size-4" />
+    {site.primaryCta}
+  </a>
+</div>
+<div class="lg:hidden h-14" aria-hidden="true"></div>

@@ -1,0 +1,250 @@
+---
+const projectTypes = [
+  "Roof Repair",
+  "Roof Replacement",
+  "Shingle Roofing",
+  "Flat Roofing",
+  "Emergency Roof Repair",
+  "Roof Inspection",
+  "Skylight",
+  "Soffit & Fascia",
+  "Eavestrough / Gutters",
+  "Attic Insulation",
+  "Attic Ventilation",
+  "Commercial Roofing",
+  "Other",
+];
+
+const contactMethods = ["Phone", "Email", "Either"];
+
+const accessKey = import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY ?? "";
+---
+
+<form
+  id="quote-form"
+  class="space-y-5"
+  data-access-key-set={accessKey.length > 0}
+  novalidate
+>
+  <input type="hidden" name="access_key" value={accessKey} />
+  <input type="hidden" name="subject" value="New Quote Request — Oscar Roofing Website" />
+  <input type="hidden" name="from_name" value="Oscar Roofing Website" />
+  <input
+    type="checkbox"
+    name="botcheck"
+    tabindex="-1"
+    autocomplete="off"
+    style="position:absolute; left:-9999px; width:1px; height:1px; opacity:0;"
+    aria-hidden="true"
+  />
+
+  <div class="grid sm:grid-cols-2 gap-5">
+    <div>
+      <label for="name" class="block text-sm font-semibold text-navy">Full Name <span class="text-blue-bright">*</span></label>
+      <input
+        id="name"
+        name="name"
+        type="text"
+        required
+        autocomplete="name"
+        class="mt-1.5 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm text-ink focus:border-blue-bright focus:ring-2 focus:ring-blue-bright/20 outline-none"
+      />
+      <p class="error-text mt-1 text-xs text-red-600 hidden" data-error-for="name">Please enter your name.</p>
+    </div>
+
+    <div>
+      <label for="email" class="block text-sm font-semibold text-navy">Email <span class="text-blue-bright">*</span></label>
+      <input
+        id="email"
+        name="email"
+        type="email"
+        required
+        autocomplete="email"
+        class="mt-1.5 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm text-ink focus:border-blue-bright focus:ring-2 focus:ring-blue-bright/20 outline-none"
+      />
+      <p class="error-text mt-1 text-xs text-red-600 hidden" data-error-for="email">Please enter a valid email address.</p>
+    </div>
+
+    <div>
+      <label for="phone" class="block text-sm font-semibold text-navy">Phone <span class="text-blue-bright">*</span></label>
+      <input
+        id="phone"
+        name="phone"
+        type="tel"
+        required
+        autocomplete="tel"
+        class="mt-1.5 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm text-ink focus:border-blue-bright focus:ring-2 focus:ring-blue-bright/20 outline-none"
+      />
+      <p class="error-text mt-1 text-xs text-red-600 hidden" data-error-for="phone">Please enter your phone number.</p>
+    </div>
+
+    <div>
+      <label for="project_type" class="block text-sm font-semibold text-navy">Project Type <span class="text-blue-bright">*</span></label>
+      <select
+        id="project_type"
+        name="project_type"
+        required
+        class="mt-1.5 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm text-ink focus:border-blue-bright focus:ring-2 focus:ring-blue-bright/20 outline-none bg-white"
+      >
+        <option value="" selected disabled>Select a project type</option>
+        {projectTypes.map((type) => <option value={type}>{type}</option>)}
+      </select>
+      <p class="error-text mt-1 text-xs text-red-600 hidden" data-error-for="project_type">Please select a project type.</p>
+    </div>
+
+    <div>
+      <label for="address" class="block text-sm font-semibold text-navy">Property Address</label>
+      <input
+        id="address"
+        name="address"
+        type="text"
+        autocomplete="street-address"
+        class="mt-1.5 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm text-ink focus:border-blue-bright focus:ring-2 focus:ring-blue-bright/20 outline-none"
+      />
+    </div>
+
+    <div>
+      <label for="city" class="block text-sm font-semibold text-navy">City</label>
+      <input
+        id="city"
+        name="city"
+        type="text"
+        autocomplete="address-level2"
+        class="mt-1.5 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm text-ink focus:border-blue-bright focus:ring-2 focus:ring-blue-bright/20 outline-none"
+      />
+    </div>
+
+    <div class="sm:col-span-2">
+      <span class="block text-sm font-semibold text-navy">Preferred Contact Method</span>
+      <div class="mt-2 flex gap-4">
+        {
+          contactMethods.map((method, i) => (
+            <label class="inline-flex items-center gap-2 text-sm text-ink">
+              <input
+                type="radio"
+                name="preferred_contact"
+                value={method}
+                checked={i === 0}
+                class="accent-[#2f80ed]"
+              />
+              {method}
+            </label>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="sm:col-span-2">
+      <label for="message" class="block text-sm font-semibold text-navy">Message</label>
+      <textarea
+        id="message"
+        name="message"
+        rows="4"
+        placeholder="Tell us about your roofing project..."
+        class="mt-1.5 w-full rounded-lg border border-black/10 px-4 py-2.5 text-sm text-ink focus:border-blue-bright focus:ring-2 focus:ring-blue-bright/20 outline-none"
+      ></textarea>
+    </div>
+  </div>
+
+  <div
+    id="form-status"
+    role="status"
+    aria-live="polite"
+    class="hidden rounded-lg px-4 py-3 text-sm font-medium"
+  ></div>
+
+  <button
+    type="submit"
+    id="quote-submit"
+    class="inline-flex items-center justify-center rounded-lg bg-blue-bright px-7 py-3.5 text-base font-semibold text-white w-full sm:w-auto transition-transform duration-200 ease-out hover:-translate-y-0.5 active:translate-y-0 disabled:opacity-60 disabled:hover:translate-y-0"
+  >
+    Request a Quote
+  </button>
+</form>
+
+<script>
+  const form = document.getElementById("quote-form") as HTMLFormElement | null;
+  const statusEl = document.getElementById("form-status");
+  const submitBtn = document.getElementById("quote-submit") as HTMLButtonElement | null;
+
+  function setStatus(message: string, kind: "success" | "error") {
+    if (!statusEl) return;
+    statusEl.textContent = message;
+    statusEl.classList.remove("hidden", "bg-green-50", "text-green-800", "bg-red-50", "text-red-700");
+    if (kind === "success") {
+      statusEl.classList.add("bg-green-50", "text-green-800");
+    } else {
+      statusEl.classList.add("bg-red-50", "text-red-700");
+    }
+    statusEl.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+
+  function clearFieldErrors() {
+    form?.querySelectorAll("[data-error-for]").forEach((el) => el.classList.add("hidden"));
+  }
+
+  function showFieldErrors(): boolean {
+    clearFieldErrors();
+    const fields = Array.from(
+      form?.querySelectorAll<HTMLInputElement | HTMLSelectElement>("[required]") ?? []
+    );
+    const invalidFields = fields.filter((field) => !field.checkValidity());
+    for (const field of invalidFields) {
+      const errorEl = form?.querySelector(`[data-error-for="${field.name}"]`);
+      errorEl?.classList.remove("hidden");
+    }
+    invalidFields[0]?.focus();
+    return invalidFields.length === 0;
+  }
+
+  form?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!showFieldErrors()) return;
+
+    const botcheck = form.querySelector<HTMLInputElement>('[name="botcheck"]');
+    if (botcheck?.checked) return;
+
+    const accessKeySet = form.dataset.accessKeySet === "true";
+    if (!accessKeySet) {
+      setStatus(
+        "This form isn't connected to an email service yet — add PUBLIC_WEB3FORMS_ACCESS_KEY in .env (see README).",
+        "error"
+      );
+      return;
+    }
+
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Sending…";
+    }
+
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify(Object.fromEntries(new FormData(form))),
+      });
+      const result = await res.json();
+
+      if (result.success) {
+        setStatus(
+          "Thank you! Your quote request has been submitted. Oscar Roofing will contact you as soon as possible.",
+          "success"
+        );
+        form.reset();
+      } else {
+        throw new Error(result.message ?? "Unknown error");
+      }
+    } catch {
+      setStatus(
+        "Something went wrong while submitting your request. Please try again or call us directly.",
+        "error"
+      );
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Request a Quote";
+      }
+    }
+  });
+</script>

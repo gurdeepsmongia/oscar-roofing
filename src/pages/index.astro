@@ -1,0 +1,124 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import TrustStrip from "../components/TrustStrip.astro";
+import ServiceCard from "../components/ServiceCard.astro";
+import ValueProp from "../components/ValueProp.astro";
+import ProcessStep from "../components/ProcessStep.astro";
+import ServiceAreaGrid from "../components/ServiceAreaGrid.astro";
+import CTASection from "../components/CTASection.astro";
+import Icon from "../components/Icon.astro";
+import { Image } from "astro:assets";
+import { services } from "../data/services";
+import { galleryItems } from "../data/media";
+
+const whyChoose = [
+  { icon: "quote", title: "Clear Communication", description: "We keep customers informed from the initial consultation through completion." },
+  { icon: "check", title: "Quality-Focused Work", description: "We approach every roofing project with attention to detail and workmanship." },
+  { icon: "residential", title: "Residential & Commercial", description: "Roofing solutions for homes, businesses and other properties." },
+  { icon: "map-pin", title: "GTA Service", description: "Serving customers throughout the Greater Toronto Area." },
+  { icon: "inspection", title: "Safety & Professionalism", description: "We prioritize safe, organized and professional work practices." },
+  { icon: "mail", title: "Straightforward Quotes", description: "Make it easy for customers to understand what they are requesting and what happens next." },
+];
+
+const steps = [
+  { title: "Request a Quote", description: "Tell us about your roofing project through our simple online form." },
+  { title: "Discuss Your Roofing Needs", description: "We'll follow up to learn more about your property and what you're looking for." },
+  { title: "Receive a Project Recommendation", description: "Get a clear recommendation for your roofing project." },
+  { title: "Get the Work Done", description: "We schedule and complete the roofing work professionally." },
+];
+---
+
+<BaseLayout
+  title="Oscar Roofing | Roofing Company Serving the GTA"
+  description="Oscar Roofing provides dependable roof repair, replacement, and inspection services for homes and businesses across the Greater Toronto Area. Get a free quote today."
+  path="/"
+>
+  <Hero />
+  <TrustStrip />
+
+  <section class="bg-white py-20 md:py-28">
+    <div class="mx-auto max-w-[1280px] px-6 lg:px-10">
+      <div class="max-w-2xl" data-reveal>
+        <p class="text-sm font-semibold tracking-wide uppercase text-blue">Our Services</p>
+        <h2 class="mt-3 font-display text-3xl md:text-4xl font-bold text-navy">
+          Complete Roofing Services
+        </h2>
+        <p class="mt-4 text-ink-soft leading-relaxed">
+          Whether you need a small repair, a roof inspection, or a complete replacement, Oscar
+          Roofing offers roofing and exterior services designed to help protect your property.
+        </p>
+      </div>
+      <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {services.map((service) => <ServiceCard service={service} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="relative bg-navy shingle-texture py-20 md:py-28">
+    <div class="mx-auto max-w-[1280px] px-6 lg:px-10">
+      <div class="max-w-2xl" data-reveal>
+        <p class="text-sm font-semibold tracking-wide uppercase text-amber">Why Oscar Roofing</p>
+        <h2 class="mt-3 font-display text-3xl md:text-4xl font-bold text-white">
+          Roofing You Can Feel Confident About
+        </h2>
+      </div>
+      <div class="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-10">
+        {whyChoose.map((item) => <ValueProp {...item} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white py-20 md:py-28">
+    <div class="mx-auto max-w-[1280px] px-6 lg:px-10">
+      <div class="max-w-2xl mx-auto text-center" data-reveal>
+        <p class="text-sm font-semibold tracking-wide uppercase text-blue">How It Works</p>
+        <h2 class="mt-3 font-display text-3xl md:text-4xl font-bold text-navy">
+          A Simple, Straightforward Process
+        </h2>
+      </div>
+      <div class="mt-14 flex flex-col md:flex-row gap-10 md:gap-6">
+        {steps.map((step, i) => (
+          <ProcessStep number={i + 1} title={step.title} description={step.description} isLast={i === steps.length - 1} />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-gray-light py-20 md:py-28">
+    <div class="mx-auto max-w-[1280px] px-6 lg:px-10">
+      <div class="flex items-end justify-between flex-wrap gap-4" data-reveal>
+        <div class="max-w-xl">
+          <p class="text-sm font-semibold tracking-wide uppercase text-blue">Our Projects</p>
+          <h2 class="mt-3 font-display text-3xl md:text-4xl font-bold text-navy">
+            A Look at Recent Roofing Work
+          </h2>
+        </div>
+        <a href="/projects" class="inline-flex items-center gap-1.5 text-sm font-semibold text-blue-bright">
+          View All Projects
+          <Icon name="chevron-right" class="size-3.5" />
+        </a>
+      </div>
+      <div class="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {galleryItems.slice(0, 6).map((item) => (
+          <div class="relative rounded-2xl overflow-hidden shadow-elevated" data-reveal="scale">
+            <Image
+              src={item.image}
+              alt={item.alt}
+              widths={[400, 640, 900]}
+              sizes="(min-width: 1024px) 380px, (min-width: 640px) 45vw, 90vw"
+              class="w-full h-56 object-cover"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-navy-deep/70 via-navy-deep/0 to-navy-deep/0 mix-blend-multiply opacity-80" />
+            <span class="absolute bottom-3 left-4 text-white text-sm font-semibold drop-shadow">
+              {item.category}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <ServiceAreaGrid />
+  <CTASection />
+</BaseLayout>

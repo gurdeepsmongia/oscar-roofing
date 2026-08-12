@@ -1,0 +1,168 @@
+---
+import { nav, site } from "../data/site";
+import Icon from "./Icon.astro";
+import { logo } from "../data/media";
+import { Image } from "astro:assets";
+
+const currentPath = new URL(Astro.request.url).pathname;
+---
+
+<div class="hidden lg:block bg-navy-deep text-white/85 text-sm">
+  <div class="mx-auto max-w-[1280px] px-6 lg:px-10 h-9 flex items-center justify-between">
+    <p>Serving the Greater Toronto Area</p>
+    <div class="flex items-center gap-6">
+      <a href={site.phoneHref} class="hover:text-white transition-colors">
+        Call: {site.phoneDisplay}
+      </a>
+      <span class="text-white/50">Mon–Sun {site.hoursShort}</span>
+    </div>
+  </div>
+</div>
+
+<header
+  id="site-header"
+  class="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-black/5 transition-shadow duration-300"
+>
+  <div class="mx-auto max-w-[1280px] px-6 lg:px-10 h-18 md:h-20 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-2.5 shrink-0">
+      <Image src={logo} alt={`${site.name} logo`} width={44} height={44} class="rounded-full" />
+      <span class="font-display font-bold text-lg text-navy tracking-tight">
+        {site.name}
+      </span>
+    </a>
+
+    <nav class="hidden lg:flex items-center gap-8" aria-label="Primary">
+      {
+        nav.map((item) => (
+          <a
+            href={item.href}
+            class:list={[
+              "text-[15px] font-medium transition-colors hover:text-blue-bright",
+              currentPath === item.href ? "text-blue-bright" : "text-ink",
+            ]}
+            aria-current={currentPath === item.href ? "page" : undefined}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="hidden lg:flex items-center gap-3">
+      <a
+        href={site.phoneHref}
+        class="flex items-center gap-1.5 text-sm font-semibold text-navy hover:text-blue-bright transition-colors"
+      >
+        <Icon name="phone" class="size-4" />
+        {site.phoneDisplay}
+      </a>
+      <a
+        href="/contact"
+        class="inline-flex items-center rounded-lg bg-blue-bright px-5 py-2.5 text-sm font-semibold text-white shadow-[0_2px_8px_-2px_rgba(47,128,237,0.5)] transition-transform duration-200 ease-out hover:-translate-y-0.5 hover:shadow-[0_6px_16px_-4px_rgba(47,128,237,0.55)] active:translate-y-0"
+      >
+        {site.primaryCta}
+      </a>
+    </div>
+
+    <button
+      id="menu-toggle"
+      type="button"
+      class="lg:hidden inline-flex items-center justify-center size-11 rounded-md text-navy"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      aria-label="Open menu"
+    >
+      <Icon name="menu" class="size-6" />
+    </button>
+  </div>
+</header>
+
+<div
+  id="mobile-menu"
+  class="lg:hidden fixed inset-0 z-[60] hidden"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Mobile navigation"
+>
+  <div id="menu-backdrop" class="absolute inset-0 bg-navy-deep/60"></div>
+  <div class="absolute inset-y-0 right-0 w-full max-w-sm bg-white shadow-floating flex flex-col">
+    <div class="flex items-center justify-between px-6 h-18">
+      <span class="font-display font-bold text-navy">{site.name}</span>
+      <button
+        id="menu-close"
+        type="button"
+        class="inline-flex items-center justify-center size-11 rounded-md text-navy"
+        aria-label="Close menu"
+      >
+        <Icon name="close" class="size-6" />
+      </button>
+    </div>
+    <nav class="flex flex-col gap-1 px-6 pt-4" aria-label="Mobile primary">
+      {
+        nav.map((item) => (
+          <a
+            href={item.href}
+            class="rounded-md px-3 py-3 text-base font-medium text-ink hover:bg-gray-light"
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+    <div class="mt-auto p-6 flex flex-col gap-3 border-t border-black/5">
+      <a
+        href={site.phoneHref}
+        class="inline-flex items-center justify-center gap-2 rounded-lg border border-navy/15 px-5 py-3 text-sm font-semibold text-navy"
+      >
+        <Icon name="phone" class="size-4" />
+        {site.secondaryCta}
+      </a>
+      <a
+        href="/contact"
+        class="inline-flex items-center justify-center rounded-lg bg-blue-bright px-5 py-3 text-sm font-semibold text-white"
+      >
+        {site.primaryCta}
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+  const header = document.getElementById("site-header");
+  const onScroll = () => {
+    if (!header) return;
+    header.classList.toggle("shadow-elevated", window.scrollY > 8);
+  };
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
+
+  const toggle = document.getElementById("menu-toggle");
+  const menu = document.getElementById("mobile-menu");
+  const closeBtn = document.getElementById("menu-close");
+  const backdrop = document.getElementById("menu-backdrop");
+
+  function openMenu() {
+    menu?.classList.remove("hidden");
+    toggle?.setAttribute("aria-expanded", "true");
+    document.body.style.overflow = "hidden";
+    (closeBtn as HTMLElement | null)?.focus();
+  }
+
+  function closeMenu() {
+    menu?.classList.add("hidden");
+    toggle?.setAttribute("aria-expanded", "false");
+    document.body.style.overflow = "";
+    (toggle as HTMLElement | null)?.focus();
+  }
+
+  toggle?.addEventListener("click", openMenu);
+  closeBtn?.addEventListener("click", closeMenu);
+  backdrop?.addEventListener("click", closeMenu);
+  menu?.querySelectorAll("a").forEach((a) => a.addEventListener("click", closeMenu));
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !menu?.classList.contains("hidden")) {
+      closeMenu();
+    }
+  });
+</script>

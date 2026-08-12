@@ -1,0 +1,113 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHero from "../components/PageHero.astro";
+import CTASection from "../components/CTASection.astro";
+import Icon from "../components/Icon.astro";
+import { Image } from "astro:assets";
+import { services } from "../data/services";
+import { serviceImages } from "../data/media";
+---
+
+<BaseLayout
+  title="Roofing Services GTA | Roof Repair & Replacement | Oscar Roofing"
+  description="Explore Oscar Roofing's full range of residential and commercial roofing services across the GTA — from repairs and inspections to complete replacements."
+  path="/services"
+>
+  <PageHero
+    eyebrow="Our Services"
+    title="Roofing Services for the GTA"
+    description="From repairs and inspections to complete roof replacements, Oscar Roofing provides roofing solutions for residential and commercial properties."
+  />
+
+  <section class="bg-white py-20 md:py-28">
+    <div class="mx-auto max-w-[1280px] px-6 lg:px-10 space-y-20 md:space-y-28">
+      {
+        services.map((service, i) => (
+          <div
+            id={service.slug}
+            class:list={["grid lg:grid-cols-2 gap-10 lg:gap-16 items-center", i % 2 === 1 && "lg:[&>*:first-child]:order-2"]}
+          >
+            <div class="rounded-2xl overflow-hidden shadow-elevated" data-reveal>
+              <Image
+                src={serviceImages[service.image]}
+                alt={`${service.title} — placeholder stock photo`}
+                widths={[480, 768, 1024]}
+                sizes="(min-width: 1024px) 560px, 100vw"
+                class="w-full h-72 md:h-96 object-cover"
+              />
+            </div>
+            <div data-reveal>
+              <div class="inline-flex items-center justify-center size-12 rounded-xl bg-blue/10 text-blue">
+                <Icon name={service.icon} class="size-6" />
+              </div>
+              <h2 class="mt-5 font-display text-2xl md:text-3xl font-bold text-navy">{service.title}</h2>
+              <p class="mt-4 text-ink-soft leading-relaxed">{service.problem}</p>
+              <ul class="mt-6 space-y-2.5">
+                {service.benefits.map((benefit) => (
+                  <li class="flex items-start gap-2.5 text-sm text-ink">
+                    <Icon name="check" class="size-4 text-blue-bright shrink-0 mt-0.5" />
+                    {benefit}
+                  </li>
+                ))}
+              </ul>
+              <a
+                href="/contact"
+                class="mt-7 inline-flex items-center gap-2 rounded-lg bg-blue-bright px-6 py-3 text-sm font-semibold text-white transition-transform duration-200 ease-out hover:-translate-y-0.5"
+              >
+                {`Get a Quote for ${service.title}`}
+                <Icon name="arrow-right" class="size-4" />
+              </a>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="bg-gray-light py-20 md:py-28">
+    <div class="mx-auto max-w-[1280px] px-6 lg:px-10 grid md:grid-cols-2 gap-8">
+      <div class="rounded-2xl bg-white shadow-elevated p-8 md:p-10" data-reveal>
+        <Icon name="residential" class="size-8 text-blue-bright" />
+        <h3 class="mt-4 font-display text-xl font-bold text-navy">Residential Roofing</h3>
+        <p class="mt-3 text-ink-soft leading-relaxed">
+          Roofing solutions for homes across the Greater Toronto Area — from a single repair to a
+          full replacement, sized to your property and budget.
+        </p>
+      </div>
+      <div class="rounded-2xl bg-white shadow-elevated p-8 md:p-10" data-reveal>
+        <Icon name="commercial" class="size-8 text-blue-bright" />
+        <h3 class="mt-4 font-display text-xl font-bold text-navy">Commercial Roofing</h3>
+        <p class="mt-3 text-ink-soft leading-relaxed">
+          Roofing solutions for commercial and multi-unit properties, with scheduling that accounts
+          for your business operations.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-navy shingle-texture py-16 md:py-20">
+    <div class="mx-auto max-w-[1280px] px-6 lg:px-10 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left" data-reveal>
+      <div class="flex items-center gap-4">
+        <div class="shrink-0 inline-flex items-center justify-center size-12 rounded-full bg-amber/15 text-amber">
+          <Icon name="emergency" class="size-6" />
+        </div>
+        <div>
+          <h2 class="font-display text-xl font-bold text-white">Need Emergency Roof Repair?</h2>
+          <p class="mt-1 text-white/70 text-sm">A sudden leak or storm damage shouldn't wait.</p>
+        </div>
+      </div>
+      <a
+        href="tel:+14167109798"
+        class="inline-flex items-center gap-2 rounded-lg bg-amber px-6 py-3 text-sm font-semibold text-navy-deep shrink-0"
+      >
+        <Icon name="phone" class="size-4" />
+        Call +1 (416) 710-9798
+      </a>
+    </div>
+  </section>
+
+  <CTASection
+    title="Not Sure What Your Roof Needs?"
+    description="Tell us about your property and we'll help point you in the right direction."
+  />
+</BaseLayout>

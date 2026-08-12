@@ -1,0 +1,42 @@
+---
+import { site } from "../data/site";
+import Icon from "./Icon.astro";
+
+const rows = [
+  { icon: "phone", label: "Phone", value: site.phoneDisplay, href: site.phoneHref },
+  { icon: "mail", label: "Email", value: site.email, href: site.emailHref },
+  { icon: "clock", label: "Hours", value: site.hours },
+  { icon: "map-pin", label: "Service Area", value: site.serviceArea },
+];
+---
+
+<div class="rounded-2xl bg-navy shingle-texture p-8 md:p-10" data-reveal>
+  <h2 class="font-display text-xl font-bold text-white">{site.name}</h2>
+  <dl class="mt-6 space-y-5">
+    {
+      rows.map((row) => (
+        <div class="flex items-start gap-3.5">
+          <div class="shrink-0 inline-flex items-center justify-center size-9 rounded-full bg-white/10 text-amber">
+            <Icon name={row.icon} class="size-4.5" />
+          </div>
+          <div>
+            <dt class="text-xs font-semibold uppercase tracking-wide text-white/50">{row.label}</dt>
+            {row.href ? (
+              <dd class="mt-0.5">
+                <a href={row.href} class="text-white font-medium hover:text-amber transition-colors break-all">
+                  {row.value}
+                </a>
+              </dd>
+            ) : (
+              <dd class="mt-0.5 text-white font-medium">{row.value}</dd>
+            )}
+          </div>
+        </div>
+      ))
+    }
+  </dl>
+  <p class="mt-8 text-xs text-white/40 leading-relaxed">
+    Business address available upon request — not yet published while our service-area details are
+    finalized.
+  </p>
+</div>

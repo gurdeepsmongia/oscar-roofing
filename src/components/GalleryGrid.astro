@@ -1,0 +1,168 @@
+---
+import { Image } from "astro:assets";
+import { galleryItems, type GalleryCategory } from "../data/media";
+
+const categories: ("All" | GalleryCategory)[] = [
+  "All",
+  "Roof Replacement",
+  "Roof Repair",
+  "Shingles",
+  "Flat Roofing",
+  "Exterior",
+];
+---
+
+<div>
+  <div class="flex flex-wrap gap-2.5" role="group" aria-label="Filter projects by category">
+    {
+      categories.map((cat, i) => (
+        <button
+          type="button"
+          class="filter-btn rounded-full border px-4 py-2 text-sm font-medium transition-colors"
+          class:list={[
+            i === 0
+              ? "bg-navy text-white border-navy"
+              : "bg-white text-ink border-black/10 hover:border-navy/30",
+          ]}
+          data-filter={cat}
+          aria-pressed={i === 0 ? "true" : "false"}
+        >
+          {cat}
+        </button>
+      ))
+    }
+  </div>
+
+  <div class="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-6" id="gallery-grid">
+    {
+      galleryItems.map((item, i) => (
+        <button
+          type="button"
+          class="gallery-item group relative rounded-2xl overflow-hidden shadow-elevated text-left"
+          data-category={item.category}
+          data-index={i}
+          data-reveal="scale"
+        >
+          <Image
+            src={item.image}
+            alt={item.alt}
+            widths={[400, 640, 900]}
+            sizes="(min-width: 1024px) 380px, (min-width: 640px) 45vw, 90vw"
+            class="w-full h-64 object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-navy-deep/70 via-navy-deep/0 to-navy-deep/0 mix-blend-multiply opacity-80" />
+          <span class="absolute bottom-3 left-4 text-white text-sm font-semibold drop-shadow">
+            {item.category}
+          </span>
+        </button>
+      ))
+    }
+  </div>
+</div>
+
+<div
+  id="lightbox"
+  class="hidden fixed inset-0 z-[70] bg-navy-deep/90 items-center justify-center p-6"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Project photo viewer"
+>
+  <button
+    id="lightbox-close"
+    type="button"
+    aria-label="Close photo viewer"
+    class="absolute top-5 right-5 text-white/80 hover:text-white size-11 inline-flex items-center justify-center rounded-full bg-white/10"
+  >
+    ✕
+  </button>
+  <button
+    id="lightbox-prev"
+    type="button"
+    aria-label="Previous photo"
+    class="absolute left-3 md:left-6 top-1/2 -translate-y-1/2 text-white/80 hover:text-white size-11 inline-flex items-center justify-center rounded-full bg-white/10"
+  >
+    ‹
+  </button>
+  <button
+    id="lightbox-next"
+    type="button"
+    aria-label="Next photo"
+    class="absolute right-3 md:right-6 top-1/2 -translate-y-1/2 text-white/80 hover:text-white size-11 inline-flex items-center justify-center rounded-full bg-white/10"
+  >
+    ›
+  </button>
+  <img id="lightbox-img" src="" alt="" class="max-h-[80vh] max-w-[90vw] rounded-lg object-contain" />
+</div>
+
+<script>
+  const filterBtns = document.querySelectorAll<HTMLButtonElement>(".filter-btn");
+  const items = document.querySelectorAll<HTMLButtonElement>(".gallery-item");
+
+  filterBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      filterBtns.forEach((b) => {
+        b.classList.remove("bg-navy", "text-white", "border-navy");
+        b.classList.add("bg-white", "text-ink", "border-black/10");
+        b.setAttribute("aria-pressed", "false");
+      });
+      btn.classList.add("bg-navy", "text-white", "border-navy");
+      btn.classList.remove("bg-white", "text-ink", "border-black/10");
+      btn.setAttribute("aria-pressed", "true");
+
+      const filter = btn.dataset.filter;
+      items.forEach((item) => {
+        const show = filter === "All" || item.dataset.category === filter;
+        item.classList.toggle("hidden", !show);
+      });
+    });
+  });
+
+  const lightbox = document.getElementById("lightbox");
+  const lightboxImg = document.getElementById("lightbox-img") as HTMLImageElement | null;
+  let currentIndex = 0;
+  const imgList = Array.from(items).map((item) => item.querySelector("img"));
+
+  function openLightbox(index: number) {
+    currentIndex = index;
+    const img = imgList[index];
+    if (!img || !lightboxImg || !lightbox) return;
+    lightboxImg.src = img.src;
+    lightboxImg.alt = img.alt;
+    lightbox.classList.remove("hidden");
+    lightbox.classList.add("flex");
+    document.body.style.overflow = "hidden";
+    document.getElementById("lightbox-close")?.focus();
+  }
+
+  function closeLightbox() {
+    lightbox?.classList.add("hidden");
+    lightbox?.classList.remove("flex");
+    document.body.style.overflow = "";
+  }
+
+  function showRelative(delta: number) {
+    const visible = Array.from(items).filter((i) => !i.classList.contains("hidden"));
+    const visibleIndexes = visible.map((i) => Number(i.dataset.index));
+    const pos = visibleIndexes.indexOf(currentIndex);
+    const nextPos = (pos + delta + visibleIndexes.length) % visibleIndexes.length;
+    openLightbox(visibleIndexes[nextPos]);
+  }
+
+  items.forEach((item) => {
+    item.addEventListener("click", () => openLightbox(Number(item.dataset.index)));
+  });
+
+  document.getElementById("lightbox-close")?.addEventListener("click", closeLightbox);
+  document.getElementById("lightbox-prev")?.addEventListener("click", () => showRelative(-1));
+  document.getElementById("lightbox-next")?.addEventListener("click", () => showRelative(1));
+  lightbox?.addEventListener("click", (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (lightbox?.classList.contains("hidden")) return;
+    if (e.key === "Escape") closeLightbox();
+    if (e.key === "ArrowLeft") showRelative(-1);
+    if (e.key === "ArrowRight") showRelative(1);
+  });
+</script>

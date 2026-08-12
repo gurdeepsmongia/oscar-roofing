@@ -1,0 +1,23 @@
+---
+import Icon from "./Icon.astro";
+
+const items = [
+  { icon: "check", label: "Professional Roofing Solutions" },
+  { icon: "residential", label: "Residential & Commercial" },
+  { icon: "map-pin", label: "Serving the GTA" },
+  { icon: "quote", label: "Free Quote Request" },
+];
+---
+
+<section class="bg-navy">
+  <div class="mx-auto max-w-[1280px] px-6 lg:px-10 py-6 grid grid-cols-2 md:grid-cols-4 gap-y-5 gap-x-4">
+    {
+      items.map((item) => (
+        <div class="flex items-center gap-2.5 justify-center text-center md:text-left md:justify-start">
+          <Icon name={item.icon} class="size-5 text-amber shrink-0" />
+          <span class="text-sm font-medium text-white/90">{item.label}</span>
+        </div>
+      ))
+    }
+  </div>
+</section>

@@ -25,3 +25,7 @@ pnpm-debug.log*
 
 # local-only Claude Code permissions (machine-specific, not shared config)
 .claude/settings.local.json
+.claude/scheduled_tasks.lock
+
+# Wrangler local dev/build state
+.wrangler/
